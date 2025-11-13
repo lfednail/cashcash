@@ -1,0 +1,246 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ======================
+// Modèles pour BetterAuth
+// ======================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String? // nom complet ou prénom/nom
+  password  String? // hash du mot de passe (si utilisé)
+  role      String? // "admin", "technician", "manager", etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relation vers Employe (1:1) — PAS de fields/references ici
+  employe   Employe? @relation("UserToEmploye")
+  employeId Int?     @unique // ← indispensable pour la relation 1:1
+
+  sessions      Session[]
+  emailVerified Boolean   @default(false)
+  image         String?   @db.Text
+  accounts      Account[]
+
+  @@map("user")
+}
+
+// Retrouver l'usitlisateur quand il refresh la page
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?  @db.Text
+  userAgent String?  @db.Text
+
+  @@map("session")
+}
+
+// ======================
+// Entités métier (dérivées du diagramme)
+// ======================
+
+model Employe {
+  id           Int      @id @default(autoincrement())
+  matricule    String   @unique
+  nom          String
+  prenom       String
+  adresse      String?
+  dateEmbauche DateTime
+  telephone    String?
+
+  //  Relation vers User — fields/references ici (côté propriétaire)
+  user   User?   @relation("UserToEmploye", fields: [userId], references: [id])
+  userId String? @unique
+
+  // Spécialisation : Technicien
+  technicien Technicien? @relation("EmployeToTechnicien")
+
+  // Agence
+  agenceId Int
+  agence   Agence @relation(fields: [agenceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Technicien {
+  id              Int       @id @default(autoincrement())
+  employeId       Int       @unique
+  employe         Employe   @relation("EmployeToTechnicien", fields: [employeId], references: [id], onDelete: Cascade)
+  telephoneMobile String?
+  qualification   String?
+  dateObtention   DateTime?
+
+  interventions Intervention[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Agence {
+  id              Int     @id @default(autoincrement())
+  numeroAgence    String  @unique
+  nomAgence       String
+  adresseAgence   String?
+  telephoneAgence String?
+
+  employes Employe[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Client {
+  id               Int      @id @default(autoincrement())
+  numeroClient     String   @unique
+  raisonSociale    String
+  siret            String?
+  codeApe          String?
+  adresse          String?
+  telephone        String?
+  email            String?  @unique
+  dureeDeplacement Decimal? // Durée déplacement
+  distanceKM       Decimal? // Distance KM
+
+  materiels Materiel[]
+  contrats  Contrat[]
+
+  // Relation inverse pour Intervention.client
+  interventions Intervention[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Materiel {
+  id             Int          @id @default(autoincrement())
+  numeroSerie    String       @unique
+  typeMaterielId Int
+  typeMateriel   TypeMateriel @relation(fields: [typeMaterielId], references: [id])
+
+  dateVente        DateTime?
+  dateInstallation DateTime?
+  prixVente        Decimal?
+  emplacement      String?
+
+  clientId Int
+  client   Client @relation(fields: [clientId], references: [id])
+
+  interventions Intervention[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TypeMateriel {
+  id               Int    @id @default(autoincrement())
+  referenceInterne String @unique
+  libelle          String
+
+  materiels Materiel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contrat {
+  id            Int      @id @default(autoincrement())
+  numeroContrat String   @unique
+  dateSignature DateTime
+  dateEcheance  DateTime
+
+  clientId Int
+  client   Client @relation(fields: [clientId], references: [id])
+
+  typeContratId Int
+  typeContrat   TypeContrat @relation(fields: [typeContratId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TypeContrat {
+  id                Int      @id @default(autoincrement())
+  refTypeContrat    String   @unique
+  delaiIntervention Int?
+  tauxApplicable    Decimal?
+
+  contrats Contrat[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Intervention {
+  id              Int      @id @default(autoincrement())
+  numeroIntervent String   @unique
+  dateVisite      DateTime
+  heureVisite     String? // ou DateTime si plus précis
+  commentaire     String?
+
+  clientId Int
+  client   Client @relation(fields: [clientId], references: [id])
+
+  materielId Int
+  materiel   Materiel @relation(fields: [materielId], references: [id])
+
+  technicienId Int
+  technicien   Technicien @relation(fields: [technicienId], references: [id])
+
+  tempsPasse Decimal? // Temps passé
+  distanceKM Decimal? // Distance parcourue
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Moyen d'authentification
+// -> Password
+// -> Google ...
+model Account {
+  id                    String    @id
+  accountId             String    @db.Text
+  providerId            String    @db.Text
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  idToken               String?   @db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?   @db.Text
+  password              String?   @db.Text
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+
+// Vérifier des choses
+//  Reset password
+// Vérify email
+model Verification {
+  id         String   @id
+  identifier String   @db.Text
+  value      String   @db.Text
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
+}
