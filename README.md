@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+```sh
+# CashCash Ap
 
-## Getting Started
+**Description :**  
+Ce projet est une application web de gestion des interventions multi-rôles (Gestionnaire / Technicien) développée avec **Next.js**, **Tailwind CSS**, **Shadcn/UI**, **Clerk** pour l’authentification, et **Prisma** pour la gestion de la base de données et MySQL pour ma basse de données.  
 
-First, run the development server:
+L’application permet :  
+- Gestion d'interventions en fonction de l’utilisateurs qui a rôles spécifiques.  
+- Accès sécurisé aux dashboards selon le rôle grace à Clerk qui gerer l'authentification.  
+<<<<<<< HEAD
+- Gestion des données via **Prisma** et **MySQL**.
+- UI responsive et professionnelle avec **Tailwind CSS** et **Shadcn/UI**
 
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-blue?style=flat-square&logo=tailwind-css)
+![Clerk](https://img.shields.io/badge/Clerk-Auth-green?style=flat-square)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-blue?style=flat-square&logo=prisma)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+
+  
+
+- Authentification sécurisée via **Clerk**  
+- Dashboards distincts selon les rôles  
+- Gestion de la base de données avec **Prisma**  
+- UI responsive et professionnelle avec **Tailwind CSS** et **Shadcn/UI**
+=======
+- Gestion des données via Prisma et MySQL/PostgreSQL.
+- UI responsive et profestionnelle avec **Tailwind css** et **Shadcn/UI**
+>>>>>>> 49c9c9f53923a45efb9a46b357831ca53b8ae0ec
+
+---
+
+## 📸 Aperçu
+
+![Page d'accueil](./public/screenshots/home.png)  
+*Page d'accueil moderne et responsive*  
+
+![Dashboard Gestionnaire](./public/screenshots/dashboard-gestionnaire.png)  
+*Dashboard du gestionnaire avec création et gestion des techniciens*
+
+![Dashboard Technicien](./public/screenshots/dashboard-technicien.png)  
+*Dashboard du technicien pour suivi des tâches et interventions*
+
+---
+
+## 🚀 Technologies
+
+- **Framework** : Next.js 14  
+- **UI** : Tailwind CSS + Shadcn/UI  
+- **Authentification** : Clerk  
+- **Base de données** : Prisma + MySQL/PostgreSQL  
+- **Langage** : TypeScript  
+- **Icones** : Lucide-react  
+- **Outils** : ESLint, Prettier  
+
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-blue?style=flat-square&logo=tailwind-css)
+![Clerk](https://img.shields.io/badge/Clerk-Auth-green?style=flat-square)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-blue?style=flat-square&logo=prisma)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+---
+
+<<<<<<< HEAD
+## ⚡ Installation
+=======
+## 📸 Aperçu
+
+![Page d'accueil](./public/screenshots/home.png)  
+*Page d'accueil moderne et responsive*  
+
+![Dashboard Gestionnaire](./public/screenshots/dashboard-gestionnaire.png)  
+*Dashboard du gestionnaire avec création et gestion des techniciens*
+
+![Dashboard Technicien](./public/screenshots/dashboard-technicien.png)  
+*Dashboard du technicien pour suivi des tâches et interventions*
+
+
+## Installation
+>>>>>>> 49c9c9f53923a45efb9a46b357831ca53b8ae0ec
+
+```sh
+1. Cloner le dépôt :  
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/sukig.dew/cashcach-ap.git
+cd cashcash-ap
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 2. Installer les dépendances :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+# ou
+yarn install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
 
-## Learn More
+## 3. Configurer l’environnement :
+Créer un fichier .env :
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+DATABASE_URL="mysql://user:password@localhost:3306/nom_database"
+CLERK_FRONTEND_API="<votre_clerk_frontend_api>"
+CLERK_API_KEY="<votre_clerk_api_key>"
+NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 4. Initialiser Prisma :
 
-## Deploy on Vercel
+```sh
+npx prisma generate
+npx prisma migrate dev --name init
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
