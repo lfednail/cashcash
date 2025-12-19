@@ -13,7 +13,7 @@
 - Amadout : documentation
 
 **Description :**  
-Ce projet est une application web de gestion des interventions multi-rôles (Gestionnaire / Technicien) développée avec **Next.js**, **Tailwind CSS**, **Shadcn/UI**, **Clerk** pour l’authentification, et **Prisma** pour la gestion de la base de données et MySQL pour ma basse de données.  
+Ce projet est une application web de gestion des interventions multi-rôles (Gestionnaire / Technicien) développée avec **Next.js**, **Tailwind CSS**, **Shadcn/UI**, **BetterAuth** pour l’authentification, et **Prisma** pour la gestion de la base de données et MySQL pour ma basse de données.  
 
 L’application permet :  
 - Gestion d'interventions en fonction de l’utilisateurs qui a rôles spécifiques.  
