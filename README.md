@@ -1,5 +1,16 @@
 ```sh
 # CashCash Ap
+# Étude de cas – BTS SIO SLAM
+
+## Membres du groupe
+- Nana
+- Amadou
+- Fednail
+
+## Répartition des tâches
+- Nana: diagramme UML
+- fednail et Amadou : GitHub
+- Amadout : documentation
 
 **Description :**  
 Ce projet est une application web de gestion des interventions multi-rôles (Gestionnaire / Technicien) développée avec **Next.js**, **Tailwind CSS**, **Shadcn/UI**, **Clerk** pour l’authentification, et **Prisma** pour la gestion de la base de données et MySQL pour ma basse de données.  
