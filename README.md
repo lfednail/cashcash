@@ -17,7 +17,7 @@ Ce projet est une application web de gestion des interventions multi-rôles (Ges
 
 L’application permet :  
 - Gestion d'interventions en fonction de l’utilisateurs qui a rôles spécifiques.  
-- Accès sécurisé aux dashboards selon le rôle grace à Clerk qui gerer l'authentification.  
+- Accès sécurisé aux dashboards selon le rôle grace à BetterAuth qui gerer l'authentification.  
 <<<<<<< HEAD
 - Gestion des données via **Prisma** et **MySQL**.
 - UI responsive et professionnelle avec **Tailwind CSS** et **Shadcn/UI**
@@ -30,16 +30,11 @@ L’application permet :
 
   
 
-- Authentification sécurisée via **Clerk**  
+- Authentification sécurisée via **BetterAuth**  
 - Dashboards distincts selon les rôles  
 - Gestion de la base de données avec **Prisma**  
 - UI responsive et professionnelle avec **Tailwind CSS** et **Shadcn/UI**
 =======
-- Gestion des données via Prisma et MySQL/PostgreSQL.
-- UI responsive et profestionnelle avec **Tailwind css** et **Shadcn/UI**
->>>>>>> 49c9c9f53923a45efb9a46b357831ca53b8ae0ec
-
----
 
 ## 📸 Aperçu
 
@@ -58,7 +53,7 @@ L’application permet :
 
 - **Framework** : Next.js 14  
 - **UI** : Tailwind CSS + Shadcn/UI  
-- **Authentification** : Clerk  
+- **Authentification** : BetterAuth  
 - **Base de données** : Prisma + MySQL/PostgreSQL  
 - **Langage** : TypeScript  
 - **Icones** : Lucide-react  
@@ -66,7 +61,6 @@ L’application permet :
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-blue?style=flat-square&logo=tailwind-css)
-![Clerk](https://img.shields.io/badge/Clerk-Auth-green?style=flat-square)
 ![Prisma](https://img.shields.io/badge/Prisma-ORM-blue?style=flat-square&logo=prisma)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
 ---
@@ -110,8 +104,8 @@ Créer un fichier .env :
 
 ```sh
 DATABASE_URL="mysql://user:password@localhost:3306/nom_database"
-CLERK_FRONTEND_API="<votre_clerk_frontend_api>"
-CLERK_API_KEY="<votre_clerk_api_key>"
+BETTER_AUTH_SECRET=wQ89QlphPzibHqi6IbA8xS5CR99XVmIu
+BETTER_AUTH_URL=http://localhost:3000
 NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
 NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
 
